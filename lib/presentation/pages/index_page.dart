@@ -29,6 +29,7 @@ class _IndexPageState extends State<IndexPage> {
     setState(() {
       _currentPage = pageIndex;
     });
+    _indexPageScaffold.currentState?.closeDrawer();
   }
 
   @override
