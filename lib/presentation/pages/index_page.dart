@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advance_ui/presentation/pages/animation_builder_demo_page.dart';
+import 'package:flutter_advance_ui/presentation/pages/fancy_scroll_page.dart';
 import 'package:flutter_advance_ui/presentation/pages/scroll_animation_page.dart';
 
 class IndexPage extends StatefulWidget {
@@ -20,6 +21,8 @@ class _IndexPageState extends State<IndexPage> {
         return const ScorllAnimationPage();
       case 1:
         return const AnimatedBuilderDemoPage();
+      case 2:
+        return const FancyScrollPage();
       default:
         return const ScorllAnimationPage();
     }
@@ -36,18 +39,18 @@ class _IndexPageState extends State<IndexPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _indexPageScaffold,
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text("ADVANCE UI"),
-        actions: [
-          IconButton(
-            onPressed: () {
-              _indexPageScaffold.currentState?.openDrawer();
-            },
-            icon: const Icon(Icons.menu),
-          )
-        ],
-      ),
+      // appBar: AppBar(
+      //   automaticallyImplyLeading: false,
+      //   title: const Text("ADVANCE UI"),
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         _indexPageScaffold.currentState?.openDrawer();
+      //       },
+      //       icon: const Icon(Icons.menu),
+      //     )
+      //   ],
+      // ),
       body: _renderPage(),
       drawer: Drawer(
         child: ListView(
@@ -64,6 +67,13 @@ class _IndexPageState extends State<IndexPage> {
               title: const Text("Animated Builder Demo"),
               onTap: () {
                 _gotoPage(1);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.list_alt),
+              title: const Text("Fancy Scroll Demo"),
+              onTap: () {
+                _gotoPage(2);
               },
             )
           ],
