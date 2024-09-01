@@ -1,0 +1,79 @@
+[
+  {
+    "id": "1",
+    "name": "Table Mountain",
+    "description": "(Khoikhoi: Hoerikwaggo, Afrikaans: Tafelberg) is a flat-topped mountain forming a prominent landmark overlooking the city of Cape Town in South Africa, and is featured in the Flag of Cape Town and other local government insignia. It is a significant tourist attraction, with many visitors using the cableway or hiking to the top. The mountain forms part of the Table Mountain National Park.",
+    "address": "Western Cape & City of Cape Town, South Africa",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/cape-town-567227_1920-1070x713.jpg",
+    "geolocation": {
+      "lng": 18.409834,
+      "lat": -33.962864
+    }
+  },
+  {
+    "id": "2",
+    "name": "PP Underground River",
+    "description": "The Puerto Princesa Subterranean River National Park is a protected area of the Philippines located about 80 kilometres (50 mi) north of the city centre of Puerto Princesa, Palawan. The river is also called Puerto Princesa Underground River. The national park is located in the Saint Paul Mountain Range on the western coast of the island. It is bordered by St. Paul Bay to the north and the Babuyan River to the east. The City Government of Puerto Princesa has managed the National Park since 1992. The entrance to the subterranean river is a short hike or boat ride from the town Sabang.",
+    "address": "Western Visayas & Palawan, Philippines",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/Puerto_Princesa_SD79-1920x1080.jpg",
+    "geolocation": {
+      "lng": 118.9167,
+      "lat": 10.1667
+    }
+  },
+  {
+    "id": "3",
+    "name": "Jeju Island",
+    "description": "Jejudo (also known as Jeju Island) is a volcanic island. With a surface area of 1,846 sqkm it is the largest island 130 km off the coast of the Korean Peninsula, and the main island of Jeju Province of South Korea. The island lies in the Korea Strait, southwest of South Jeolla Province. The island contains the natural World Heritage Site Jeju Volcanic Island and Lava Tubes. A central feature of Jeju is Hallasan, the tallest mountain in South Korea and a dormant volcano, which rises 1,950 m above sea level. 360 satellite volcanoes are around the main volcano.",
+    "address": "Jeju Province, South Korea",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/044-Seongsan-Ilchulbong-and-Hallasan-1920x1227.jpg",
+    "geolocation": {
+      "lng": 33.3786,
+      "lat": 126.5662
+    }
+  },
+  {
+    "id": "4",
+    "name": "Ha Long Bay",
+    "description": "Hạ Long Bay (Vietnamese: Vịnh Hạ Long,  listen, literally: “descending dragon bay”) is a UNESCO World Heritage Site and popular travel destination in Quảng Ninh Province, Vietnam. Administratively, the bay belongs to Hạ Long City, Cẩm Phả town, and is a part of Vân Đồn District. The bay features thousands of limestone karsts and isles in various shapes and sizes. Hạ Long Bay is a center of a larger zone which includes Bái Tử Long Bay to the northeast, and Cát Bà Island to the southwest. These larger zones share a similar geological, geographical, geomorphological, climate and cultural characters.",
+    "address": "limestone bay, Vietnam",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/Ha_Long_Bay_SD74-1920x1080.jpg",
+    "geolocation": {
+      "lng": 107.183389,
+      "lat": 20.927719
+    }
+  },
+  {
+    "id": "5",
+    "name": "Iguazu Falls",
+    "description": "Iguazu Falls, Iguazú Falls, Iguassu Falls, or Iguaçu Falls (Spanish: Cataratas del Iguazú [kataˈɾatas ðel iɣwaˈsu]; Guarani: Chororo Yguasu [ɕoɾoɾo ɨɣʷasu]; Portuguese: Cataratas do Iguaçu [kataˈɾatɐʒ du iɡwaˈsu]) are waterfalls of the Iguazu River on the border of the Argentine province of Misiones and the Brazilian state of Paraná. They are the largest waterfalls system in the world. The falls divide the river into the upper and lower Iguazu. The Iguazu River rises near the city of Curitiba. For most of its course, the river flows through Brazil, however, most of the falls are on the Argentine side. Below its confluence with the San Antonio River, the Iguazu River forms the boundary between Argentina and Brazil.",
+    "address": "Argentina & Brazil",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/111011AM2649-1920x1280.jpg",
+    "geolocation": {
+      "lng": 25.6953,
+      "lat": 54.4367
+    }
+  },
+  {
+    "id": "6",
+    "name": "Komodo Island",
+    "description": "Komodo is one of the 17,508 islands that compose the Republic of Indonesia. The island is particularly notable as the habitat of the Komodo dragon, the largest lizard on Earth, which is named after the island. Komodo Island has a surface area of 390 square kilometres and a human population of over two thousand. The people of the island are descendants of former convicts who were exiled to the island and who have mixed with Bugis from Sulawesi. The people are primarily adherents of Islam but there are also Christian and Hindu congregations.",
+    "address": "Indonesia",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/monitor-1589200_1920.jpg",
+    "geolocation": {
+      "lng": 8.585,
+      "lat": 119.4411
+    }
+  },
+  {
+    "id": "7",
+    "name": "Amazon",
+    "description": "The Amazon (US /ˈæməzɒn/ or UK /ˈæməzən/; Spanish and Portuguese: Amazonas) in South America is shared by 9 nations, in alphabetical order: Bolivia, Brazil, Colombia, Ecuador, Guiane, Guyana, Peru, Suriname, Venezuela.",
+    "address": "South America",
+    "image": "https://www.new7wonders.com/app/uploads/sites/4/2016/09/20111011AM2773-1920x1280.jpg",
+    "geolocation": {
+      "lng": -55.126648,
+      "lat": -2.163106
+    }
+  }
+]

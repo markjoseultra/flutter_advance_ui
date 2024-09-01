@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advance_ui/presentation/pages/animation_builder_demo_page.dart';
+import 'package:flutter_advance_ui/presentation/pages/drawing_canvas_page.dart';
 import 'package:flutter_advance_ui/presentation/pages/fancy_scroll_page.dart';
 import 'package:flutter_advance_ui/presentation/pages/scroll_animation_page.dart';
 
@@ -23,6 +24,8 @@ class _IndexPageState extends State<IndexPage> {
         return const AnimatedBuilderDemoPage();
       case 2:
         return const FancyScrollPage();
+      case 3:
+        return const DrawingCanvassPage();
       default:
         return const ScorllAnimationPage();
     }
@@ -74,6 +77,13 @@ class _IndexPageState extends State<IndexPage> {
               title: const Text("Fancy Scroll Demo"),
               onTap: () {
                 _gotoPage(2);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.list_alt),
+              title: const Text("Drawing Canvas Demo"),
+              onTap: () {
+                _gotoPage(3);
               },
             )
           ],
