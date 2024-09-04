@@ -1,15 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-void showError(
+void showErrorPrompt(
     {required String title, required String message, required WidgetRef ref}) {
   ref.read(promptNotifierProvider.notifier).addPrompt(
         title: title,
         message: message,
         severity: Severity.error,
       );
+}
 
-  ref.read(promptAnimatedListNotifierProvider.notifier).insertItem(index: 0);
+void showSuccessPrompt(
+    {required String title, required String message, required WidgetRef ref}) {
+  ref.read(promptNotifierProvider.notifier).addPrompt(
+        title: title,
+        message: message,
+        severity: Severity.good,
+      );
+}
+
+void showWarningPrompt(
+    {required String title, required String message, required WidgetRef ref}) {
+  ref.read(promptNotifierProvider.notifier).addPrompt(
+        title: title,
+        message: message,
+        severity: Severity.warning,
+      );
+}
+
+void showInfoPrompt(
+    {required String title, required String message, required WidgetRef ref}) {
+  ref.read(promptNotifierProvider.notifier).addPrompt(
+        title: title,
+        message: message,
+        severity: Severity.info,
+      );
 }
 
 @visibleForTesting
@@ -42,6 +67,10 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
     required String message,
     required Severity severity,
   }) {
+    ref
+        .read(promptAnimatedListNotifierProvider.notifier)
+        .insertItem(index: state.length);
+
     state = [
       ...state,
       PromptModel(
@@ -53,12 +82,29 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
     ];
   }
 
-  void removePrompt({required int id}) {
+  void removePrompt({required int index}) async {
     if (state.isEmpty) {
       return;
     }
 
-    state.removeAt(state.indexWhere((prompt) => prompt.id == id));
+    PromptModel removedPrompt = state.removeAt(index);
+
+    ref.read(promptAnimatedListNotifierProvider.notifier).removeItem(
+          index: index,
+          builder: (context, animation) {
+            return SlideTransition(
+              position: Tween<Offset>(
+                begin: Offset.zero,
+                end: const Offset(0.0, -150),
+              ).animate(animation),
+              child: PromptCard(
+                title: removedPrompt.title,
+                message: removedPrompt.message,
+                severity: removedPrompt.severity,
+              ),
+            );
+          },
+        );
 
     state = [...state];
   }
@@ -84,8 +130,7 @@ class PromptAnimatedListNotifier
       return;
     }
 
-    state.currentState!
-        .insertItem(index, duration: const Duration(milliseconds: 500));
+    state.currentState!.insertItem(index, duration: const Duration(seconds: 1));
 
     state = state;
   }
@@ -125,56 +170,39 @@ class _AwesomePromptState extends ConsumerState<AwesomePrompt> {
         children: [
           widget.child,
           SafeArea(
-            child: prompts.isEmpty
-                ? const SizedBox()
-                : AnimatedList(
-                    key: key,
-                    initialItemCount: ref.watch(promptNotifierProvider).length,
-                    itemBuilder: (context, index, animation) {
-                      return SlideTransition(
-                        position: Tween<Offset>(
-                          begin: const Offset(0.0, -150),
-                          end: Offset.zero,
-                        ).animate(animation),
-                        child: PromptCard(
-                          title: prompts[index].title,
-                          message: prompts[index].message,
-                          severity: prompts[index].severity,
-                          onClose: () {
-                            if (prompts.isEmpty) {
-                              return;
-                            }
+            child: IgnorePointer(
+              ignoring: prompts.isEmpty ? true : false,
+              child: AnimatedList(
+                key: key,
+                initialItemCount: ref.watch(promptNotifierProvider).length,
+                itemBuilder: (context, index, animation) {
+                  return SlideTransition(
+                    position: Tween<Offset>(
+                      begin: const Offset(0.0, -150),
+                      end: Offset.zero,
+                    ).animate(
+                      CurvedAnimation(
+                          parent: animation, curve: Curves.decelerate),
+                    ),
+                    child: PromptCard(
+                      key: Key("${prompts[index].id}"),
+                      title: prompts[index].title,
+                      message: prompts[index].message,
+                      severity: prompts[index].severity,
+                      onClose: () {
+                        if (prompts.isEmpty) {
+                          return;
+                        }
 
-                            ref
-                                .read(
-                                    promptAnimatedListNotifierProvider.notifier)
-                                .removeItem(
-                                  index: index,
-                                  builder: (context, animation) {
-                                    return SlideTransition(
-                                      position: Tween<Offset>(
-                                        begin: Offset.zero,
-                                        end: const Offset(0.0, -150),
-                                      ).animate(animation),
-                                      child: PromptCard(
-                                        title: prompts[index].title,
-                                        message: prompts[index].message,
-                                        severity: prompts[index].severity,
-                                      ),
-                                    );
-                                  },
-                                );
-
-                            ref
-                                .read(promptNotifierProvider.notifier)
-                                .removePrompt(
-                                  id: prompts[index].id,
-                                );
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                        ref.read(promptNotifierProvider.notifier).removePrompt(
+                              index: index,
+                            );
+                      },
+                    ),
+                  );
+                },
+              ),
+            ),
           )
         ],
       ),

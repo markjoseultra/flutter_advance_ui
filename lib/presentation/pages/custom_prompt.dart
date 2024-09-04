@@ -16,7 +16,23 @@ class _CustomPromptState extends ConsumerState<CustomPrompt> {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              showError(
+              showErrorPrompt(
+                title: "Lorem ipsum",
+                message: "Lorem ipsum dolor sit amit",
+                ref: ref,
+              );
+
+              showSuccessPrompt(
+                title: "Lorem ipsum",
+                message: "Lorem ipsum dolor sit amit",
+                ref: ref,
+              );
+              showInfoPrompt(
+                title: "Lorem ipsum",
+                message: "Lorem ipsum dolor sit amit",
+                ref: ref,
+              );
+              showWarningPrompt(
                 title: "Lorem ipsum",
                 message: "Lorem ipsum dolor sit amit",
                 ref: ref,
