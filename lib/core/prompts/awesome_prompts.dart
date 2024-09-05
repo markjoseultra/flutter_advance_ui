@@ -82,7 +82,7 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
     ];
   }
 
-  void removePrompt({required int index}) async {
+  Future removePrompt({required int index}) async {
     if (state.isEmpty) {
       return;
     }
@@ -92,23 +92,42 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
     ref.read(promptAnimatedListNotifierProvider.notifier).removeItem(
           index: index,
           builder: (context, animation) {
-            return SlideTransition(
-              position: Tween<Offset>(
-                begin: Offset.zero,
-                end: const Offset(-150, 0.0),
-              ).animate(animation),
-              child: PromptCard(
-                title: removedPrompt.title,
-                message: removedPrompt.message,
-                severity: removedPrompt.severity,
-              ),
+            return PromptCard(
+              title: removedPrompt.title,
+              message: removedPrompt.message,
+              severity: removedPrompt.severity,
+              animation: animation,
             );
           },
         );
 
-    await Future.delayed(const Duration(seconds: 1));
-
     state = [...state];
+  }
+
+  Future clearAll() async {
+    for (var i = 0; i < 1000; i++) {
+      if (state.isEmpty) {
+        break;
+      }
+
+      await Future.delayed(const Duration(milliseconds: 250));
+
+      PromptModel removedPrompt = state.removeLast();
+
+      ref.read(promptAnimatedListNotifierProvider.notifier).removeItem(
+            index: state.length,
+            builder: (context, animation) {
+              return PromptCard(
+                title: removedPrompt.title,
+                message: removedPrompt.message,
+                severity: removedPrompt.severity,
+                animation: animation,
+              );
+            },
+          );
+
+      state = [...state];
+    }
   }
 }
 
@@ -132,7 +151,8 @@ class PromptAnimatedListNotifier
       return;
     }
 
-    state.currentState!.insertItem(index, duration: const Duration(seconds: 1));
+    state.currentState!
+        .insertItem(index, duration: const Duration(milliseconds: 500));
 
     state = state;
   }
@@ -175,23 +195,20 @@ class _AwesomePromptState extends ConsumerState<AwesomePrompt>
           SafeArea(
             child: IgnorePointer(
               ignoring: prompts.isEmpty ? true : false,
-              child: AnimatedList(
-                key: key,
-                initialItemCount: ref.watch(promptNotifierProvider).length,
-                itemBuilder: (context, index, animation) {
-                  return SlideTransition(
-                    position: Tween<Offset>(
-                      begin: const Offset(0.0, -150),
-                      end: Offset.zero,
-                    ).animate(
-                      CurvedAnimation(
-                          parent: animation, curve: Curves.decelerate),
-                    ),
-                    child: PromptCard(
+              child: GestureDetector(
+                onTap: () {
+                  ref.read(promptNotifierProvider.notifier).clearAll();
+                },
+                child: AnimatedList(
+                  key: key,
+                  initialItemCount: ref.watch(promptNotifierProvider).length,
+                  itemBuilder: (context, index, animation) {
+                    return PromptCard(
                       key: Key("${prompts[index].id}"),
                       title: prompts[index].title,
                       message: prompts[index].message,
                       severity: prompts[index].severity,
+                      animation: animation,
                       onClose: () {
                         if (prompts.isEmpty) {
                           return;
@@ -201,9 +218,9 @@ class _AwesomePromptState extends ConsumerState<AwesomePrompt>
                               index: index,
                             );
                       },
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
             ),
           )
@@ -220,6 +237,7 @@ class PromptCard extends StatelessWidget {
   final String message;
   final VoidCallback? onTap;
   final VoidCallback? onClose;
+  final Animation<double> animation;
 
   const PromptCard({
     super.key,
@@ -229,6 +247,7 @@ class PromptCard extends StatelessWidget {
     this.onTap,
     this.onClose,
     this.severity = Severity.info,
+    required this.animation,
   });
 
   final Color textColor = const Color(0xFF282828);
@@ -265,76 +284,86 @@ class PromptCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.sizeOf(context).width,
-      child: Container(
-        margin: const EdgeInsets.symmetric(
-          horizontal: 10.0,
-          vertical: 5.0,
+    return SlideTransition(
+      position: animation.drive(
+        Tween(
+          begin: const Offset(0.0, -1),
+          end: Offset.zero,
+        ).chain(
+          CurveTween(curve: Curves.easeIn),
         ),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16.0),
-        ),
+      ),
+      child: SizedBox(
+        width: MediaQuery.sizeOf(context).width,
         child: Container(
-          padding: const EdgeInsets.all(24.0),
+          margin: const EdgeInsets.symmetric(
+            horizontal: 10.0,
+            vertical: 5.0,
+          ),
           decoration: BoxDecoration(
-            color: bgColor(severity: severity),
-            border: Border.all(
-              width: 1,
-              color: borderColor(severity: severity),
-            ),
+            color: Colors.white,
             borderRadius: BorderRadius.circular(16.0),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  IconContainer(
-                    icon: const Icon(Icons.info),
-                    severity: severity,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        title,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          color: textColor,
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 10.0),
-                      SizedBox(
-                        width: MediaQuery.sizeOf(context).width * 0.4,
-                        child: Text(
-                          message,
-                          maxLines: 2,
+          child: Container(
+            padding: const EdgeInsets.all(24.0),
+            decoration: BoxDecoration(
+              color: bgColor(severity: severity),
+              border: Border.all(
+                width: 1,
+                color: borderColor(severity: severity),
+              ),
+              borderRadius: BorderRadius.circular(16.0),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    IconContainer(
+                      icon: const Icon(Icons.info),
+                      severity: severity,
+                    ),
+                    const SizedBox(width: 10.0),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          title,
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             color: textColor,
-                            fontSize: 11.0,
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () {
-                  if (onClose != null) {
-                    onClose!();
-                  }
-                },
-              )
-            ],
+                        const SizedBox(height: 10.0),
+                        SizedBox(
+                          width: MediaQuery.sizeOf(context).width * 0.4,
+                          child: Text(
+                            message,
+                            maxLines: 2,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              color: textColor,
+                              fontSize: 11.0,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () {
+                    if (onClose != null) {
+                      onClose!();
+                    }
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
