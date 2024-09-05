@@ -58,6 +58,16 @@ class _AnimatedListDemoState extends State<AnimatedListDemo> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((duration) {
+      for (var i = 0; i < 5; i++) {
+        addData();
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedList(
@@ -97,8 +107,8 @@ class ListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: animation,
+    return SizeTransition(
+      sizeFactor: animation,
       child: Card(
         child: ListTile(
           leading: const Icon(Icons.insert_comment),
