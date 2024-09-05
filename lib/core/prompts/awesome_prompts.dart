@@ -110,7 +110,7 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
         break;
       }
 
-      await Future.delayed(const Duration(milliseconds: 250));
+      await Future.delayed(const Duration(milliseconds: 500));
 
       PromptModel removedPrompt = state.removeLast();
 
@@ -151,8 +151,7 @@ class PromptAnimatedListNotifier
       return;
     }
 
-    state.currentState!
-        .insertItem(index, duration: const Duration(milliseconds: 500));
+    state.currentState!.insertItem(index, duration: const Duration(seconds: 1));
 
     state = state;
   }
@@ -255,7 +254,7 @@ class PromptCard extends StatelessWidget {
   Color bgColor({required Severity severity}) {
     switch (severity) {
       case Severity.good:
-        return const Color(0xFF0FDFAF);
+        return const Color(0xFFF0FDFA);
       case Severity.info:
         return const Color(0xFFEFF6FF);
       case Severity.warning:
@@ -263,7 +262,7 @@ class PromptCard extends StatelessWidget {
       case Severity.error:
         return const Color(0xFFFFEBEB);
       default:
-        return const Color(0xFF0FDFAF);
+        return const Color(0xFFF0FDFA);
     }
   }
 
@@ -287,10 +286,10 @@ class PromptCard extends StatelessWidget {
     return SlideTransition(
       position: animation.drive(
         Tween(
-          begin: const Offset(0.0, -1),
+          begin: const Offset(0.0, -2),
           end: Offset.zero,
         ).chain(
-          CurveTween(curve: Curves.easeIn),
+          CurveTween(curve: Curves.decelerate),
         ),
       ),
       child: SizedBox(
