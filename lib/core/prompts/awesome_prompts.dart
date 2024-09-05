@@ -281,6 +281,21 @@ class PromptCard extends StatelessWidget {
     }
   }
 
+  Icon icon({required Severity severity}) {
+    switch (severity) {
+      case Severity.good:
+        return const Icon(Icons.check_circle_outline);
+      case Severity.info:
+        return const Icon(Icons.info_outline);
+      case Severity.warning:
+        return const Icon(Icons.notifications_outlined);
+      case Severity.error:
+        return const Icon(Icons.warning_amber_rounded);
+      default:
+        return const Icon(Icons.check_circle_outline);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SlideTransition(
@@ -319,7 +334,7 @@ class PromptCard extends StatelessWidget {
                 Row(
                   children: [
                     IconContainer(
-                      icon: const Icon(Icons.info),
+                      icon: icon(severity: severity),
                       severity: severity,
                     ),
                     const SizedBox(width: 10.0),
@@ -398,22 +413,22 @@ class IconContainer extends StatelessWidget {
   Color innerRingColor({required Severity severity}) {
     switch (severity) {
       case Severity.good:
-        return const Color(0xFF5EEAD4);
+        return const Color(0x4D5EEAD4);
       case Severity.info:
-        return const Color(0xFF93C5FD);
+        return const Color(0x4D93C5FD);
       case Severity.warning:
-        return const Color(0xFFFDBA74);
+        return const Color(0x4DFDBA74);
       case Severity.error:
         return const Color(0x4DFF3F3C);
       default:
-        return const Color(0xFF5EEAD4);
+        return const Color(0x4D5EEAD4);
     }
   }
 
   Color iconColor({required Severity severity}) {
     switch (severity) {
       case Severity.good:
-        return Colors.teal.shade500;
+        return const Color(0xFF14B8A6);
       case Severity.info:
         return const Color(0xFF3B82F6);
       case Severity.warning:
