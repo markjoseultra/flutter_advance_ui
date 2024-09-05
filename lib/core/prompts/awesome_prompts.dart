@@ -95,7 +95,7 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
             return SlideTransition(
               position: Tween<Offset>(
                 begin: Offset.zero,
-                end: const Offset(0.0, -150),
+                end: const Offset(-150, 0.0),
               ).animate(animation),
               child: PromptCard(
                 title: removedPrompt.title,
@@ -105,6 +105,8 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
             );
           },
         );
+
+    await Future.delayed(const Duration(seconds: 1));
 
     state = [...state];
   }
@@ -157,7 +159,8 @@ class AwesomePrompt extends ConsumerStatefulWidget {
   ConsumerState<ConsumerStatefulWidget> createState() => _AwesomePromptState();
 }
 
-class _AwesomePromptState extends ConsumerState<AwesomePrompt> {
+class _AwesomePromptState extends ConsumerState<AwesomePrompt>
+    with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     List<PromptModel> prompts = ref.watch(promptNotifierProvider);
