@@ -8,13 +8,26 @@ class ScorllAnimationPage extends StatefulWidget {
   State<ScorllAnimationPage> createState() => _ScorllAnimationPageState();
 }
 
-class _ScorllAnimationPageState extends State<ScorllAnimationPage> {
+class _ScorllAnimationPageState extends State<ScorllAnimationPage>
+    with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
+
+  double _rotationOffset = 0.0;
 
   final _textStyle = const TextStyle(
     fontSize: 50.0,
     fontWeight: FontWeight.bold,
   );
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(() {
+      setState(() {
+        _rotationOffset = _scrollController.offset / 12;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +45,23 @@ class _ScorllAnimationPageState extends State<ScorllAnimationPage> {
             ),
           ),
           FullScreenListItem(
+            child: Transform.rotate(
+              angle: _rotationOffset,
+              child: const FlutterLogo(
+                size: 100.0,
+              ),
+            ),
+          ),
+          SlideInItem(
+            key: const Key('002'),
+            child: FullScreenListItem(
+              child: Text(
+                "This is how we trigger animation on display to viewport",
+                style: _textStyle,
+              ),
+            ),
+          ),
+          FullScreenListItem(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -40,7 +70,7 @@ class _ScorllAnimationPageState extends State<ScorllAnimationPage> {
                   style: _textStyle,
                 ),
                 SlideInItem(
-                  key: const Key('002'),
+                  key: const Key('003'),
                   child: Text(
                     "Viola!",
                     style: _textStyle,
@@ -50,7 +80,7 @@ class _ScorllAnimationPageState extends State<ScorllAnimationPage> {
             ),
           ),
           FadeInItem(
-            key: const Key('003'),
+            key: const Key('004'),
             child: FullScreenListItem(
               child: Text(
                 "Fade In",
@@ -140,7 +170,7 @@ class _SlideInItemState extends State<SlideInItem>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
@@ -166,6 +196,56 @@ class _SlideInItemState extends State<SlideInItem>
       },
       child: SlideTransition(
         position: _offsetAnimation,
+        child: widget.child,
+      ),
+    );
+  }
+}
+
+class SizeUpItem extends StatefulWidget {
+  final Widget child;
+  const SizeUpItem({super.key, required this.child});
+
+  @override
+  State<SizeUpItem> createState() => _SizeUpItemState();
+}
+
+class _SizeUpItemState extends State<SizeUpItem>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  late final Animation<double> _sizeFactor;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _sizeFactor = Tween<double>(begin: 0.1, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.bounceOut,
+      ),
+    );
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return VisibilityDetector(
+      key: Key("SIZE_UP_${widget.key}"),
+      onVisibilityChanged: (info) {
+        if (info.visibleFraction > 0.10) {
+          _controller.forward();
+        } else {
+          _controller.reset();
+        }
+      },
+      child: SizeTransition(
+        sizeFactor: _sizeFactor,
         child: widget.child,
       ),
     );

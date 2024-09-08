@@ -15,7 +15,7 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  int _currentPage = 6;
+  int _currentPage = 0;
 
   final GlobalKey<ScaffoldState> _indexPageScaffold = GlobalKey();
 
