@@ -122,7 +122,7 @@ class PromptStateNotifier extends Notifier<List<PromptModel>> {
 
     state.removeAt(state.indexWhere((prompt) => prompt.id == id));
 
-    state = [...state];
+    // state = [...state];
   }
 }
 
@@ -170,12 +170,12 @@ class _AwesomePromptState extends ConsumerState<AwesomePrompt>
     setState(() {
       uiPromptsMap.remove(id);
     });
+
+    ref.read(promptNotifierProvider.notifier).removePrompt(id: int.parse(id));
   }
 
   @override
   Widget build(BuildContext context) {
-    // List<PromptModel> prompts = ref.watch(promptNotifierProvider);
-
     ref.listen(
       promptNotifierProvider,
       (previous, next) {
