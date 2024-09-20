@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advance_ui/presentation/pages/animated_list_demo.dart';
 import 'package:flutter_advance_ui/presentation/pages/animation_builder_demo_page.dart';
-import 'package:flutter_advance_ui/presentation/pages/column_animation.dart';
+import 'package:flutter_advance_ui/presentation/pages/page_view_animation.dart';
 import 'package:flutter_advance_ui/presentation/pages/custom_prompt.dart';
 import 'package:flutter_advance_ui/presentation/pages/drawing_canvas_page.dart';
 import 'package:flutter_advance_ui/presentation/pages/fancy_scroll_page.dart';
@@ -15,7 +15,7 @@ class IndexPage extends StatefulWidget {
 }
 
 class _IndexPageState extends State<IndexPage> {
-  int _currentPage = 0;
+  int _currentPage = 5;
 
   final GlobalKey<ScaffoldState> _indexPageScaffold = GlobalKey();
 
@@ -32,7 +32,7 @@ class _IndexPageState extends State<IndexPage> {
       case 4:
         return const AnimatedListDemo();
       case 5:
-        return const ColumnAnimation();
+        return const PageViewAnimation();
       case 6:
         return const CustomPrompt();
       default:
@@ -104,7 +104,7 @@ class _IndexPageState extends State<IndexPage> {
             ),
             ListTile(
               leading: const Icon(Icons.list_alt),
-              title: const Text("Animated Column"),
+              title: const Text("Animated Page View"),
               onTap: () {
                 _gotoPage(5);
               },

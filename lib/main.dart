@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_advance_ui/core/prompts/awesome_prompts.dart';
+import 'package:flutter_advance_ui/core/prompts/awesome_prompts_v2.dart';
 import 'package:flutter_advance_ui/presentation/pages/index_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

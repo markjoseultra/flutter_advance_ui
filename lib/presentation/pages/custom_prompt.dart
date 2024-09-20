@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_advance_ui/core/prompts/awesome_prompts.dart';
+
+import 'package:flutter_advance_ui/core/prompts/awesome_prompts_v2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class CustomPrompt extends ConsumerStatefulWidget {
@@ -16,23 +17,23 @@ class _CustomPromptState extends ConsumerState<CustomPrompt> {
       body: Center(
         child: ElevatedButton(
             onPressed: () {
-              showErrorPrompt(
+              showError(
                 title: "Lorem ipsum",
                 message: "Lorem ipsum dolor sit amit",
                 ref: ref,
               );
 
-              showSuccessPrompt(
+              showSuccess(
                 title: "Lorem ipsum",
                 message: "Lorem ipsum dolor sit amit",
                 ref: ref,
               );
-              showInfoPrompt(
+              showInfo(
                 title: "Lorem ipsum",
                 message: "Lorem ipsum dolor sit amit",
                 ref: ref,
               );
-              showWarningPrompt(
+              showWarning(
                 title: "Lorem ipsum",
                 message: "Lorem ipsum dolor sit amit",
                 ref: ref,
